@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 50px; 
+            background-color: #f4f4f4;
+        }
+        input, button { 
+            margin: 10px; 
+            padding: 10px; 
+            font-size: 16px;
+        }
+        #password { 
+            font-weight: bold; 
+            margin-top: 20px; 
+            word-break: break-all;
+        }
+        #feedback {
+            color: #555;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Password Generator</h1>
+    <input type="number" id="length" placeholder="Enter password length" min="6" max="32" oninput="updateFeedback()">
+    <div id="feedback">Enter a length between 6 and 32.</div>
+    <button onclick="generatePassword()">Generate Password</button>
+    <div id="password"></div>
+
+    <script>
+        function updateFeedback() {
+            const length = document.getElementById("length").value;
+            const feedback = document.getElementById("feedback");
+
+            if (length < 6) {
+                feedback.innerText = "Too short! Passwords should be at least 6 characters.";
+                feedback.style.color = "red";
+            } else if (length > 32) {
+                feedback.innerText = "Too long! Passwords should not exceed 32 characters.";
+                feedback.style.color = "red";
+            } else {
+                feedback.innerText = `Password length: ${length} characters.`;
+                feedback.style.color = "#555";
+            }
+        }
+
+        function generatePassword() {
+            const length = document.getElementById("length").value || 12;
+            const feedback = document.getElementById("feedback");
+
+            if (length < 6 || length > 32) {
+                feedback.innerText = "Please enter a length between 6 and 32.";
+                feedback.style.color = "red";
+                return;
+            }
+
+            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:',.<>?";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            document.getElementById("password").innerText = password;
+        }
+    </script>
+</body>
+</html>
